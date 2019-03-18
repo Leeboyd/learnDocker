@@ -9,12 +9,16 @@ services:
       - fsfe2
     volumes:
       - ./nginx:/etc/nginx/conf.d
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     links:
       - fsfe2:fsfe2
   fsfe2:
     build: ./fsfe2
     environment:
       - PORT=3001
-#  certbot:
-#    image: certbot/certbot
-
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
