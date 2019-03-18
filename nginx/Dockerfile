@@ -1,0 +1,7 @@
+FROM nginx:alpine
+
+# Wipe the default config
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy custom config file from the current directory
+COPY my_nginx.conf /etc/nginx/conf.d/default.conf

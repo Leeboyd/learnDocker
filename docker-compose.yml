@@ -1,0 +1,20 @@
+version: '3'
+services:
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - fsfe2
+    volumes:
+      - ./nginx:/etc/nginx/conf.d
+    links:
+      - fsfe2:fsfe2
+  fsfe2:
+    build: ./fsfe2
+    environment:
+      - PORT=3001
+#  certbot:
+#    image: certbot/certbot
+
