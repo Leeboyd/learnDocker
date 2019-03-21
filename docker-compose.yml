@@ -11,8 +11,9 @@ services:
       - ./nginx:/etc/nginx/conf.d
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    links:
-      - fsfe2:fsfe2
+    # links:
+    #  - fsfe2:fsfe2
+    command: "/bin/sh -c 'while :; do sleep 15d & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
   fsfe2:
     build: ./fsfe2
     environment:
@@ -22,3 +23,4 @@ services:
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 30d & wait $${!}; done;'"
